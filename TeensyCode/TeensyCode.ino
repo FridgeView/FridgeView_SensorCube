@@ -3,17 +3,18 @@
 #include <Wire.h>
 #include <SoftwareSerial.h>
 #include "BluefruitConfig.h"
+#include <String.h>
 
 // Connect Vin to 3-5VDC
 // Connect GND to ground
 // Connect SCL to I2C clock pin (A5 on UNO) (D0 on teensy)
 // Connect SDA to I2C data pin (A4 on UNO) (D1 on teensy)
 
-SoftwareSerial Genotronex(7, 8); // RX, TX
+SoftwareSerial Genotronex(7, 8); // RX, TXs
 
 float getTemperature();
 float getHumidity();
-const char sensorCubeID = "fvsc1";
+String sensorCubeID = "GfrGUXmZY5";
 
 void setup() {
 
@@ -50,9 +51,10 @@ void loop() {
 
   int som = Genotronex.read();
     if(som != '\n'){
-      Genotronex.print("{'SensorCubeID':");Genotronex.print(sensorCubeID);
-      Genotronex.print(",'Temp': ");Genotronex.print(temp);
-      Genotronex.print(",'Hum': ");Genotronex.print(hum);Genotronex.println("}");
+      Genotronex.print("{'cubeID': '");Genotronex.print(sensorCubeID);
+      Genotronex.print("','Temp': '");Genotronex.print(String(temp));
+      Genotronex.print("','Hum': '");Genotronex.print(String(hum));
+      Genotronex.print("','Battery': '23");Genotronex.println("'}");
     }  
   delay(1000);
 }
